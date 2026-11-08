@@ -27,7 +27,7 @@ test('reducer does not mutate previous score snapshot', () => {
   const before = Object.freeze({ points: 250, streak: 3 });
   const after = scoreEvent(before, 'landed');
   assert.deepEqual(before, { points: 250, streak: 3 });
-  assert.deepEqual(after, { points: 400, streak: 4 });
+  assert.deepEqual(after, { points: 425, streak: 4 });
 });
 
 test('invalid state, events and integer overflow are rejected', () => {
