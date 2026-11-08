@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { distance, landingResult, missionState, moveToward, withinRadius, type Point, type MissionState } from './rules.js';
+import { initialScore, scoreEvent, type ScoreState } from './scoring.js';
 
 type Aircraft = { id: number; position: Point; speed: number; cleared: boolean; tint: number };
 const W = 1000;
@@ -16,6 +17,7 @@ class AirportScene extends Phaser.Scene {
   private timer = 0;
   private landed = 0;
   private missed = 0;
+  private score: ScoreState = initialScore();
   private phase: MissionState = 'active';
   private radar!: Phaser.GameObjects.Graphics;
   private hud!: Phaser.GameObjects.Text;
@@ -30,6 +32,7 @@ class AirportScene extends Phaser.Scene {
     this.timer = 0;
     this.landed = 0;
     this.missed = 0;
+    this.score = initialScore();
     this.phase = 'active';
     this.drawBackground();
     this.radar = this.add.graphics();
@@ -111,6 +114,7 @@ class AirportScene extends Phaser.Scene {
         const result = landingResult(plane.cleared);
         if (result === 'landed') this.landed++;
         else this.missed++;
+        this.score = scoreEvent(this.score, result);
         this.aircraft.splice(this.aircraft.indexOf(plane), 1);
         this.notice.setText(result === 'landed' ? `Pouso confirmado: voo ${plane.id}!` : `Voo ${plane.id} sem autorização: aproximação perdida!`);
       }
@@ -143,6 +147,7 @@ class AirportScene extends Phaser.Scene {
     this.hud.setText([
       `POUSOS ${this.landed} / ${TARGET_LANDINGS}`,
       `INCIDENTES ${this.missed} / ${MAX_MISSES}`,
+      `PONTOS ${this.score.points} | SEQUÊNCIA x${this.score.streak}`,
       `VOOS EM RADAR ${this.aircraft.length}`
     ]);
   }
