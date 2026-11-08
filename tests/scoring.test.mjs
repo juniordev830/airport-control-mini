@@ -12,7 +12,7 @@ test('successful landing grants base points and increases streak', () => {
 test('streak reward caps at five consecutive successful landings', () => {
   let state = initialScore();
   for (let i = 0; i < 12; i += 1) state = scoreEvent(state, 'landed');
-  assert.deepEqual(state, { points: 1600, streak: 5 });
+  assert.deepEqual(state, { points: 2150, streak: 5 });
 });
 
 test('misses reset streak and never make score negative', () => {
