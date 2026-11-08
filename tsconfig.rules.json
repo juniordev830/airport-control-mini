@@ -6,5 +6,8 @@
     "rootDir": "src",
     "module": "ESNext"
   },
-  "include": ["src/rules.ts"]
+  "include": [
+    "src/rules.ts",
+    "src/scoring.ts"
+  ]
 }
