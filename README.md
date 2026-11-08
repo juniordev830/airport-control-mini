@@ -35,3 +35,12 @@ Este protótipo usa gráficos geométricos, trajetórias simplificadas e dados s
 - Curvas de aproximação e múltiplas rotas;
 - efeitos sonoros, missões e dificuldade escalável;
 - controles mais detalhados e melhorias de acessibilidade.
+
+
+## Sistema de pontuação (novo)
+
+O radar agora mostra a pontuação e a sequência de pousos bem-sucedidos. Cada pouso autorizado rende **100 pontos** mais **25 por pouso consecutivo adicional**, limitado ao bônus de cinco pousos seguidos (máximo de 200 pontos por pouso). Um voo não autorizado subtrai 60 pontos (sem deixar a pontuação negativa) e reinicia a sequência.
+
+As regras estão em `src/scoring.ts`, isoladas do Phaser, com testes `tests/scoring.test.mjs` cobrindo sequência, reinicialização, limites e não mutação do estado. Pressione **R** para começar uma nova partida com o placar zerado.
+
+Esses valores são mecânicas de um jogo fictício, não critérios reais de controle de tráfego aéreo.
