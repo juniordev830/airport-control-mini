@@ -44,3 +44,7 @@ O radar agora mostra a pontuação e a sequência de pousos bem-sucedidos. Cada 
 As regras estão em `src/scoring.ts`, isoladas do Phaser, com testes `tests/scoring.test.mjs` cobrindo sequência, reinicialização, limites e não mutação do estado. Pressione **R** para começar uma nova partida com o placar zerado.
 
 Esses valores são mecânicas de um jogo fictício, não critérios reais de controle de tráfego aéreo.
+
+## Priorização de pousos
+
+O painel passa a indicar o **próximo voo sem autorização**, ordenado pela estimativa do tempo até entrar no círculo de pouso. A estimativa considera distância, velocidade constante do avião e raio de pouso; não representa controle real de tráfego aéreo. Todos os cálculos são testados em `tests/rules.test.mjs`.
