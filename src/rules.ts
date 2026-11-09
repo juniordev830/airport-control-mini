@@ -37,3 +37,15 @@ export function missionState(landed: number, missed: number, handled: number, ta
   if (handled >= target + maxMisses - 1) return 'failure';
   return 'active';
 }
+
+/**
+ * Estimated seconds until the aircraft enters the landing circle.
+ * Speed and radius must be finite; this is a constant-speed game estimate.
+ */
+export function estimatedArrivalSeconds(from: Point, runway: Point, speed: number, radius = 0): number {
+  if (!Number.isFinite(speed) || speed <= 0 || !Number.isFinite(radius) || radius < 0 ||
+      ![from.x, from.y, runway.x, runway.y].every(Number.isFinite)) {
+    throw new RangeError('Arrival estimate requires finite positions, positive speed and nonnegative radius');
+  }
+  return Math.max(0, distance(from, runway) - radius) / speed;
+}
