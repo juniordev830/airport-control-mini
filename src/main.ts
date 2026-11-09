@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { distance, landingResult, missionState, moveToward, withinRadius, type Point, type MissionState } from './rules.js';
+import { distance, landingResult, missionState, moveToward, withinRadius, estimatedArrivalSeconds, type Point, type MissionState } from './rules.js';
 import { initialScore, scoreEvent, type ScoreState } from './scoring.js';
 
 type Aircraft = { id: number; position: Point; speed: number; cleared: boolean; tint: number };
@@ -144,11 +144,22 @@ class AirportScene extends Phaser.Scene {
       this.radar.lineStyle(1, plane.cleared ? 0x56eaa2 : 0xffc75f, 0.45);
       this.radar.strokeCircle(x, y, 24);
     }
+    const pending = this.aircraft
+      .filter(plane => !plane.cleared)
+      .map(plane => ({
+        id: plane.id,
+        eta: estimatedArrivalSeconds(plane.position, RUNWAY, plane.speed, LAND_RADIUS)
+      }))
+      .sort((a, b) => a.eta - b.eta);
+    const nextWarning = pending.length
+      ? `AUTORIZAÇÃO PENDENTE: VOO ${pending[0].id} EM ${pending[0].eta.toFixed(1)}s`
+      : 'NENHUM VOO AGUARDANDO AUTORIZAÇÃO';
     this.hud.setText([
       `POUSOS ${this.landed} / ${TARGET_LANDINGS}`,
       `INCIDENTES ${this.missed} / ${MAX_MISSES}`,
       `PONTOS ${this.score.points} | SEQUÊNCIA x${this.score.streak}`,
-      `VOOS EM RADAR ${this.aircraft.length}`
+      `VOOS EM RADAR ${this.aircraft.length}`,
+      nextWarning
     ]);
   }
 }
