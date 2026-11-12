@@ -1,0 +1,8 @@
+{
+  "name": "airport-control-mini",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Simulação abstrata de fila e pista única, sem interface de jogo",
+  "scripts": {"test": "node --test", "demo": "node bin/demo.js"},
+  "engines": {"node": ">=20"}
+}
