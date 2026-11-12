@@ -46,3 +46,7 @@ npm run demo
 ```
 
 O teste automatizado no GitHub Actions usa `.github/workflows/airport-tests.yml`. Este código serve somente para um jogo de lógica: não modela separação de aeronaves, meteorologia, procedimentos reais de controle de tráfego ou requisitos de segurança da aviação. A interface 2D ainda é planejada.
+
+### Relógio monotônico do protótipo
+
+O núcleo mantém `relogioMin` no estado imutável. Após autorizar ou concluir uma operação, uma nova autorização ou conclusão não pode informar instante anterior ao último registrado. Solicitações e cancelamentos preservam o relógio. A regra evita simulações que voltem no tempo; não representa critérios reais de controle de tráfego aéreo.
