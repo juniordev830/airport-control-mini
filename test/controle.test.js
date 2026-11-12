@@ -41,3 +41,19 @@ test("identificadores, estados e tempo inválidos",()=>{
   assert.throws(()=>autorizar(estado,"AZ-100",-1),RangeError);
   assert.throws(()=>finalizar(estado,"AZ-100",1),RangeError);
 });
+
+test("relogio monotono impede novo voo autorizado no passado",()=>{
+  const inicio=doisVoos();
+  const primeiro=autorizar(inicio,"AZ-100",10);
+  assert.equal(primeiro.relogioMin,10);
+  assert.equal(inicio.relogioMin,0);
+  assert.throws(()=>finalizar(primeiro,"AZ-100",9),RangeError);
+  const concluido=finalizar(primeiro,"AZ-100",15);
+  assert.equal(concluido.relogioMin,15);
+  assert.throws(()=>autorizar(concluido,"GOL-2",14),RangeError);
+  const comNovoPedido=solicitar(concluido,{id:"TAM-4",operacao:"POUSO",duracaoMin:2});
+  assert.equal(comNovoPedido.relogioMin,15);
+  const cancelado=cancelar(comNovoPedido,"TAM-4");
+  assert.equal(cancelado.relogioMin,15);
+  assert.equal(autorizar(cancelado,"GOL-2",15).voos[1].status,"autorizada");
+});
