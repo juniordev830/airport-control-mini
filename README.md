@@ -15,3 +15,14 @@ python -m unittest discover -s tests -v
 ```
 
 O conjunto de testes cobre conflitos, intervalos adjacentes, pistas paralelas, duplicação de voos, validação e consulta por pista.
+
+## Incremento: turno de controle (em revisão)
+
+Além do núcleo de agendamento, `turns.py` implementa fila de aeronaves fictícias, autorizações sem conflito, cancelamento de pedidos pendentes, relógio simulado e finalização de operações. O sistema usa tempos controlados, sem relógio real, e não deve ser utilizado para operações de aviação.
+
+```bash
+python turns.py
+python -m unittest discover -s tests -p 'test_*.py' -v
+```
+
+A interface gráfica ainda está pendente. O CI valida esse fluxo com entradas e horários fictícios.
