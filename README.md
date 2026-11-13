@@ -1,35 +1,32 @@
 # Airport Control Mini
 
-Simulador **planejado** de controle de pistas, pousos e decolagens em um pequeno aeroporto fictício.
+Simulador de tráfego aéreo com controle de pousos, decolagens e pistas.
 
-> **Estado na branch principal:** somente conceito documentado; o núcleo de código de outro PR ainda não foi integrado. O objetivo abaixo é um MVP futuro, não uma versão jogável.
+## Protótipo funcional (Python 3.10+)
 
-## Escopo de um primeiro turno
+O módulo `scheduler.py` agenda operações de pouso e decolagem com intervalos de ocupação por pista. Rejeita conflitos de horários na mesma pista, voos duplicados e operações inválidas. Intervalos consecutivos são permitidos, e pistas diferentes podem operar em paralelo.
 
-Simular uma pista e aeronaves abstratas com solicitações de pouso/decolagem. O jogador decide qual operação autorizar, tentando evitar conflitos e atrasos. Não é um simulador de procedimentos reais de aviação.
+Este é um núcleo em memória: não representa separação de segurança operacional, regras ATC reais nem persistência.
 
-## Regras propostas
+## Testes
 
-- Uma pista só pode atender uma operação por vez.
-- Uma aeronave autorizada ocupa a pista por um intervalo definido.
-- Autorizações conflitantes devem ser recusadas sem alterar o estado.
-- Cada aeronave possui estado: aguardando, autorizada, concluída ou cancelada.
-- A passagem do tempo deve ser reproduzível em testes.
+```bash
+python -m unittest discover -s tests -v
+```
 
-## Critérios de aceitação
+O conjunto de testes cobre conflitos, intervalos adjacentes, pistas paralelas, duplicação de voos, validação e consulta por pista.
 
-1. Duas aeronaves disputam a mesma pista; apenas uma recebe autorização.
-2. Após a primeira operação finalizar, a segunda pode ser atendida.
-3. A interface mostra fila, pista ocupada e operações realizadas.
-4. Cancelar pedido pendente não interrompe operação de outra aeronave.
-5. Simulação não depende do relógio real do computador nos testes.
+## Incremento: turno de controle
 
-## Entregas
+Além do núcleo de agendamento, `turns.py` implementa fila de aeronaves fictícias, autorizações sem conflito, cancelamento de pedidos pendentes, relógio simulado e finalização de operações. O sistema usa tempos controlados, sem relógio real, e não deve ser utilizado para operações de aviação.
 
-- [ ] Domínio de pista, aeronave e agenda em memória, para pista única.
-- [ ] Testes de conflito, estados e avanço de tempo.
-- [ ] Interface 2D com visão simplificada da pista.
-- [ ] Controles, pontuação e tutorial.
-- [ ] Build de demonstração e instruções reproduzíveis.
+```bash
+python turns.py
+python -m unittest discover -s tests -p 'test_*.py' -v
+```
 
-Usar somente nomes, pistas e dados fictícios; não sugerir uso para controle de tráfego aéreo real.
+A interface gráfica ainda está pendente. O CI valida esse fluxo com entradas e horários fictícios.
+
+## O que ainda falta
+
+O conceito original prevê interface 2D com visualização da pista e fila, controles interativos, pontuação, tutorial e build de demonstração. Essas etapas **ainda não estão implementadas**: o que funciona hoje é a simulação de domínio em Python com testes. Todos os voos são fictícios e o projeto não se destina a controle aéreo real.
