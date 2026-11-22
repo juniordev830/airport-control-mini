@@ -21,9 +21,11 @@ class Operation:
     end: datetime
 
     def __post_init__(self):
+        if not isinstance(self.flight, str) or not isinstance(self.runway, str):
+            raise ValueError("Flight and runway must be text")
         if not self.flight.strip() or not self.runway.strip():
             raise ValueError("Flight and runway are required")
-        if self.kind not in {"landing", "takeoff"}:
+        if not isinstance(self.kind, str) or self.kind not in {"landing", "takeoff"}:
             raise ValueError("Operation must be landing or takeoff")
         if not isinstance(self.start, datetime) or not isinstance(self.end, datetime):
             raise ValueError("Start and end must be date-times")
@@ -39,6 +41,8 @@ class RunwayScheduler:
         self._operations: list[Operation] = []
 
     def schedule(self, operation: Operation) -> None:
+        if not isinstance(operation, Operation):
+            raise TypeError("Expected an Operation instance")
         start, end = timeline(operation.start), timeline(operation.end)
         if self._operations and (start.utcoffset() is None) != (self._operations[0].start.utcoffset() is None):
             raise ValueError("Use the same time zone convention for the entire schedule")
