@@ -1,5 +1,7 @@
 # Airport Control Mini
 
+**Navegação** · [Agendamento e turnos em Python](#agendamento-e-turnos-em-python) · [Código e estudo](docs/ENGENHARIA_REVERSA.md)
+
 ## Jogo de navegador em Phaser
 
 **Status:** primeiro MVP gráfico para navegador. É um **jogo fictício**, não um sistema operacional de tráfego aéreo.
@@ -83,3 +85,9 @@ O CI valida o núcleo Python com entradas e horários fictícios.
 ### O que ainda falta
 
 O conceito original prevê interface 2D com visualização da pista e fila, controles interativos, pontuação, tutorial e build de demonstração. Essas etapas **ainda não estão implementadas**: o que funciona hoje é a simulação de domínio em Python com testes. Todos os voos são fictícios e o projeto não se destina a controle aéreo real.
+
+## Código e roteiro de estudo
+
+Como exercitar pontuação e separação de aeronaves sem iniciar um navegador? O [guia de engenharia reversa](docs/ENGENHARIA_REVERSA.md) reúne o mapa dos módulos e uma pergunta técnica baseada no projeto.
+
+Mantido por [João Junior](https://github.com/juniordev830).
